@@ -1,5 +1,3 @@
-using System;
-
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -12,7 +10,7 @@ namespace Controllers
 
 		private int _lastCornerCode = -1;
 		
-		private void Start() {
+		private void Awake() {
 			PlaceInRandomCorner();
 		}
 
@@ -44,13 +42,6 @@ namespace Controllers
 			code += (Vector2.Dot(position, Vector2.right) > 0) ? 0 : 1;
 			code += (Vector2.Dot(position, Vector2.up) > 0) ? 0 : 2;
 			return code;
-		}
-
-		// TODO: remove testing function
-		private void Update() {
-			if (Input.GetKeyDown(KeyCode.Space)) {
-				PlaceInRandomCorner();
-			}
 		}
 	}
 }

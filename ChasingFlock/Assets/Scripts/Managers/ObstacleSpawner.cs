@@ -27,7 +27,7 @@ namespace Managers
 				GameObject obstacle = Instantiate(_obstaclePrefab, startingPosition, Quaternion.identity);
 			
 				ObstacleController controller = obstacle.GetComponent<ObstacleController>();
-				controller.Speed = Random.Range(5f, 20f);
+				controller.Speed = Random.Range(5f, 20f) * ((Random.value > 0.5f)? 1f : -1f);
 				controller.Bound = 50f;
 				controller.Radius = 1f;
 			}
