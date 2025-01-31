@@ -17,9 +17,11 @@ namespace Controllers {
 	
 	public class BoidController : MonoBehaviour {
 		
-		public Vector3 Direction { get; private set; }
+		public Vector3 Velocity { get { return transform.up * BoidShared.Instance.Speed; } }
 		
+		private Vector3 _updatedDirection;
 		private List<SteeringGroup> _steeringGroups;
+		
 		private LayerMask _obstacleLayer;
 		private LayerMask _boidLayer;
 		private Collider2D[] _obstacles = new Collider2D[50];
@@ -51,8 +53,8 @@ namespace Controllers {
 		
 		private void FixedUpdate() {
 			// Go in the current direction
-			if (Direction != Vector3.zero) {
-				Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, Direction);
+			if (_updatedDirection != Vector3.zero) {
+				Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, _updatedDirection);
 				transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, BoidShared.Instance.AngularSpeed * Time.fixedDeltaTime);
 			}
 			
@@ -63,17 +65,18 @@ namespace Controllers {
 			while (Application.isPlaying) {
 				int obstaclesCount = Physics2D.OverlapCircleNonAlloc(transform.position, BoidShared.Instance.FOVRadius, _obstacles, _obstacleLayer);
 				int boidNeighboursCount = Physics2D.OverlapCircleNonAlloc(transform.position, BoidShared.Instance.FOVRadius, _boidNeighbours, _boidLayer);
+				// TODO: refine based on FOV
 				
 				Vector3 newDirection = Vector3.zero;
 				foreach (SteeringGroup group in _steeringGroups) {
 					newDirection = Vector3.zero;
 					foreach (SteeringBehaviour behaviour in group.Behaviours) {
 						if (behaviour is BoidComponent) {
-							newDirection += behaviour.GetDirection(Direction, _boidNeighbours, boidNeighboursCount);
+							newDirection += behaviour.GetDirection(_boidNeighbours, boidNeighboursCount);
 						} else if (behaviour is AvoidObstacles) {
-							newDirection += behaviour.GetDirection(Direction, _obstacles, obstaclesCount);
+							newDirection += behaviour.GetDirection(_obstacles, obstaclesCount);
 						} else {
-							newDirection += behaviour.GetDirection(Direction, null, 0);
+							newDirection += behaviour.GetDirection(null, 0);
 						}
 					}
 
@@ -81,7 +84,7 @@ namespace Controllers {
 						break;
 					}
 				}
-				Direction = newDirection.normalized;
+				_updatedDirection = newDirection.normalized;
 
 				yield return new WaitForSeconds(BoidShared.Instance.DirectionDeltaTime);
 			}

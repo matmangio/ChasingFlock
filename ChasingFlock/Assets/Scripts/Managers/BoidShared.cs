@@ -8,48 +8,51 @@ namespace Managers {
 	public class BoidShared : Singleton<BoidShared> {
 
 		[Header("General Parameters")]
-		public float Speed;
-		public float AngularSpeed;
+		[Min(0)] public float Speed;
+		[Min(0)] public float AngularSpeed;
 		
 		[Space]
-		public float FOVRadius;
-		[Range(0, 360)] public float FOV;
+		[Min(0)] public float FOVRadius;
+		[Range(90, 360)] public float FOV;
 
 		[Space]
-		public float DirectionDeltaTime;
-		public float Epsilon;
+		[Min(0)] public float DirectionDeltaTime;
+		[Min(0)] public float Epsilon;
 		
 		[Header("Chase Parameters")]
 		public GameObject ChaseTarget;
 		[Space]
-		[Range(0, 5)] public int ChasePriority;
-		[Range(0, 5)] public float ChaseWeight;
+		public int ChasePriority;
+		[Min(0)] public float ChaseWeight;
 
 		[Header("Flocking Parameters")]
 		[SerializeField] private bool _breath;
 		[SerializeField] private float _breathSpeed;
 		[SerializeField] private float _breathAmplitude;
 		[Space]
-		[Range(0, 5)] public int SeparationPriority;
-		[Range(0, 5)] public float SeparationWeight;
+		public int SeparationPriority;
+		[Min(0)] public float SeparationWeight;
 
 		[Space]
-		[Range(0, 5)] public int CohesionPriority;
-		[Range(0, 5)] public float CohesionWeight;
+		public int CohesionPriority;
+		[Min(0)] public float CohesionWeight;
 
 		[Space]
-		[Range(0, 5)] public int AlignmentPriority;
-		[Range(0, 5)] public float AlignmentWeight;
+		public int AlignmentPriority;
+		[Min(0)] public float AlignmentWeight;
 
 		[Header("Avoidance Parameters")]
-		[Range(0, 5)] public int ObstacleAvoidPriority;
-		[Range(0, 5)] public float ObstacleAvoidWeight;
-
+		[Min(1.5f)] public float ObstacleAvoidDistance;
+		[Min(1.5f)] public float WallAvoidDistance;
+		[Min(0)] public float MaxLookAheadTime;
+		
 		[Space]
-		public float WallAvoidDistance;
+		public int ObstacleAvoidPriority;
+		[Min(0)] public float ObstacleAvoidWeight;
+		
 		[Space]
-		[Range(0, 5)] public int WallAvoidPriority;
-		[Range(0, 5)] public float WallAvoidWeight;
+		public int WallAvoidPriority;
+		[Min(0)] public float WallAvoidWeight;
 
 		private float _originalSeparation;
 		private float _originalCohesion;

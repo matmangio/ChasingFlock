@@ -138,7 +138,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &50169756
 Transform:
   m_ObjectHideFlags: 0
@@ -353,10 +353,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 10
-  AngularSpeed: 360
-  FOVRadius: 10
+  AngularSpeed: 540
+  FOVRadius: 15
   FOV: 360
-  DirectionDeltaTime: 0.1
+  DirectionDeltaTime: 0.05
   Epsilon: 0.01
   ChaseTarget: {fileID: 1557511686}
   ChasePriority: 0
@@ -370,11 +370,13 @@ MonoBehaviour:
   CohesionWeight: 0.8
   AlignmentPriority: 0
   AlignmentWeight: 0.7
+  ObstacleAvoidDistance: 3
+  WallAvoidDistance: 1
+  MaxLookAheadTime: 0.5
   ObstacleAvoidPriority: 1
   ObstacleAvoidWeight: 1
-  WallAvoidDistance: 2
-  WallAvoidPriority: 1
-  WallAvoidWeight: 2
+  WallAvoidPriority: 2
+  WallAvoidWeight: 1
 --- !u!114 &1513697504
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,7 +390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _count: 50
-  _radius: 30
+  _radius: 20
   _boidPrefab: {fileID: 4083861778635899280, guid: c5e26c1838241bd4388bf2932c3e069e, type: 3}
 --- !u!4 &1513697505
 Transform:

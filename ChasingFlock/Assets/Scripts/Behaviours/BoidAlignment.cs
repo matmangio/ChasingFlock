@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Behaviours {
 	public class BoidAlign : BoidComponent {
-		public override Vector3 GetDirection(Vector3 currentDirection, Collider2D[] colliders, int size) {
+		public override Vector3 GetDirection(Collider2D[] colliders, int size) {
 			Vector3 alignment = Vector3.zero;
 			for (int i = 0; i < size; i++) {
 				alignment += colliders[i].transform.up;

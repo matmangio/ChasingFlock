@@ -7,7 +7,10 @@ namespace Controllers
 		public float Speed = 5f;
 		public float Bound = 50f;
 		public float Radius = 1f;
-	
+		
+		public Vector3 Direction { get { return Vector3.right;  } }
+		public Vector3 Velocity { get { return Speed * Vector3.right; } }
+		
 		private void FixedUpdate() {
 			float newX = transform.position.x + Speed * Time.fixedDeltaTime;
 		

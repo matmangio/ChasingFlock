@@ -6,7 +6,7 @@ namespace Behaviours
 		public int Priority { get; protected set; }
 		public float Weight { get; protected set; }
 		
-		public abstract Vector3 GetDirection(Vector3 currentDirection, Collider2D[] colliders, int size);
+		public abstract Vector3 GetDirection(Collider2D[] colliders, int size);
 		
 		protected abstract void Init();
 
