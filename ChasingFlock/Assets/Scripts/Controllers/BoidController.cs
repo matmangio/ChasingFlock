@@ -63,7 +63,7 @@ namespace Controllers {
 		
 		private IEnumerator ComputeDirection() {
 			while (Application.isPlaying) {
-				int obstaclesCount = Physics2D.OverlapCircleNonAlloc(transform.position, BoidShared.Instance.FOVRadius, _obstacles, _obstacleLayer);
+				int obstaclesCount = ObstacleSpawner.Instance.GetObstaclesAroundHeight(transform.position.y, BoidShared.Instance.ObstacleVerticalRange, _obstacles);
 				int boidNeighboursCount = Physics2D.OverlapCircleNonAlloc(transform.position, BoidShared.Instance.FOVRadius, _boidNeighbours, _boidLayer);
 				// TODO: refine based on FOV
 				

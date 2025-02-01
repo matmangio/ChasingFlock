@@ -370,9 +370,10 @@ MonoBehaviour:
   CohesionWeight: 0.8
   AlignmentPriority: 0
   AlignmentWeight: 0.7
-  ObstacleAvoidDistance: 3
-  WallAvoidDistance: 1
-  MaxLookAheadTime: 0.5
+  ObstacleVerticalRange: 5
+  ObstacleAvoidDistance: 2
+  WallAvoidDistance: 1.5
+  MaxLookAheadTime: 0.3
   ObstacleAvoidPriority: 1
   ObstacleAvoidWeight: 1
   WallAvoidPriority: 2
@@ -390,7 +391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _count: 50
-  _radius: 20
+  _radius: 25
   _boidPrefab: {fileID: 4083861778635899280, guid: c5e26c1838241bd4388bf2932c3e069e, type: 3}
 --- !u!4 &1513697505
 Transform:

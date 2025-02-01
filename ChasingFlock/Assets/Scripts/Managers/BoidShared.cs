@@ -42,6 +42,7 @@ namespace Managers {
 		[Min(0)] public float AlignmentWeight;
 
 		[Header("Avoidance Parameters")]
+		[Min(0)] public float ObstacleVerticalRange;
 		[Min(1.5f)] public float ObstacleAvoidDistance;
 		[Min(1.5f)] public float WallAvoidDistance;
 		[Min(0)] public float MaxLookAheadTime;

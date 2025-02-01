@@ -1,21 +1,31 @@
 ﻿using Controllers;
-
 using Managers;
 using UnityEngine;
 
 namespace Behaviours {
 	public class AvoidObstacles : SteeringBehaviour {
 		public override Vector3 GetDirection(Collider2D[] colliders, int size) {
-			
 			Vector3 boidVelocity = transform.up * BoidShared.Instance.Speed;
 			Vector3 direction = Vector3.zero;
 			for (int i = 0; i < size; i++) {
-				float distance = (transform.position - (Vector3) colliders[i].ClosestPoint(transform.position)).magnitude;
-				if (distance < BoidShared.Instance.ObstacleAvoidDistance) {
-					ObstacleController obstacle = colliders[i].GetComponent<ObstacleController>();
-					float timeToReach = Mathf.Min(distance / boidVelocity.magnitude, BoidShared.Instance.MaxLookAheadTime);
-					Vector3 obstaclePrediction = obstacle.transform.position + obstacle.Velocity * timeToReach;
-					direction += (transform.position - obstaclePrediction).normalized / (distance * distance * 0.0001f);
+				ObstacleController obstacle = colliders[i].GetComponent<ObstacleController>();
+				float currentDistance = (obstacle.transform.position - transform.position).magnitude;
+				if (currentDistance < BoidShared.Instance.ObstacleAvoidDistance) {
+					direction = (transform.position - obstacle.transform.position).normalized;
+					break;
+				}
+				
+				float relativeSpeed = (obstacle.Velocity - boidVelocity).magnitude;
+				float timeToCrash = Mathf.Min(currentDistance / relativeSpeed, BoidShared.Instance.MaxLookAheadTime);
+				Vector3 obstaclePrediction = obstacle.transform.position + obstacle.Velocity * timeToCrash;
+				if (Mathf.Abs(obstaclePrediction.x) > 49f) {
+					obstaclePrediction.x = 100f * Mathf.Sign(obstaclePrediction.x) - obstaclePrediction.x;
+				}
+				
+				Vector3 boidPrediction = transform.position + boidVelocity * timeToCrash;
+				float futureDistance = (obstaclePrediction - boidPrediction).magnitude;
+				if (futureDistance < BoidShared.Instance.ObstacleAvoidDistance) {
+					direction += (transform.position - obstaclePrediction).normalized / (futureDistance * futureDistance + 0.0001f);
 				}
 			}
 			
