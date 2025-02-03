@@ -12,14 +12,17 @@ namespace Managers
 	
 		[SerializeField, Range(10, 30)] 
 		private int _obstacleCount = 20;
-	
+		public int Count => _obstacleCount;
+		
 		[SerializeField]
 		private GameObject _obstaclePrefab;
 
 		private List<Collider2D> _obstacles;
+		public Dictionary<Collider2D, ObstacleController> Controllers { get; private set; }
 		
 		// TODO: parametrize
 		private void Start() {
+			Controllers = new();
 			_obstacles = new ();
 			List<float> obstacleHeights = new();
 			for (int i = 0; i < _obstacleCount; i++) {
@@ -31,11 +34,14 @@ namespace Managers
 			
 				Vector3 startingPosition = new Vector3(Random.Range(-49f, 49f), height, 0f);
 				GameObject obstacle = Instantiate(_obstaclePrefab, startingPosition, Quaternion.identity);
-				_obstacles.Add(obstacle.GetComponent<Collider2D>());
-			
-				ObstacleController controller = obstacle.GetComponent<ObstacleController>();
-				controller.Speed = Random.Range(5f, 20f) * ((Random.value > 0.5f)? 1f : -1f);
-				controller.Bound = 49f;
+				
+				Collider2D obstacleCollider = obstacle.GetComponent<Collider2D>();
+				ObstacleController obstacleController = obstacle.GetComponent<ObstacleController>();
+				obstacleController.Speed = Random.Range(5f, 20f) * ((Random.value > 0.5f)? 1f : -1f);
+				obstacleController.Bound = 49f;
+				
+				_obstacles.Add(obstacleCollider);
+				Controllers.Add(obstacleCollider, obstacleController);
 			}
 			_obstacles.Sort((x, y) => (int) Mathf.Sign(x.transform.position.y - y.transform.position.y));
 		}

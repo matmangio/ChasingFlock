@@ -8,7 +8,7 @@ namespace Behaviours {
 			Vector3 boidVelocity = transform.up * BoidShared.Instance.Speed;
 			Vector3 direction = Vector3.zero;
 			for (int i = 0; i < size; i++) {
-				ObstacleController obstacle = colliders[i].GetComponent<ObstacleController>();
+				ObstacleController obstacle = ObstacleSpawner.Instance.Controllers[colliders[i]];
 				float currentDistance = (obstacle.transform.position - transform.position).magnitude;
 				if (currentDistance < BoidShared.Instance.ObstacleAvoidDistance) {
 					direction = (transform.position - obstacle.transform.position).normalized;
@@ -21,11 +21,11 @@ namespace Behaviours {
 				if (Mathf.Abs(obstaclePrediction.x) > 49f) {
 					obstaclePrediction.x = 100f * Mathf.Sign(obstaclePrediction.x) - obstaclePrediction.x;
 				}
-				
 				Vector3 boidPrediction = transform.position + boidVelocity * timeToCrash;
 				float futureDistance = (obstaclePrediction - boidPrediction).magnitude;
 				if (futureDistance < BoidShared.Instance.ObstacleAvoidDistance) {
-					direction += (transform.position - obstaclePrediction).normalized / (futureDistance * futureDistance + 0.0001f);
+					Vector3 avoidDirection = (boidPrediction - obstaclePrediction).normalized;
+					direction += avoidDirection.normalized / (futureDistance * futureDistance + 0.0001f);
 				}
 			}
 			

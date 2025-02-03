@@ -1,6 +1,4 @@
-﻿using System;
-
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Utility {
 	
@@ -8,7 +6,7 @@ namespace Utility {
 		
 		public static T Instance { get; private set; }
 
-		private void Awake() {
+		protected virtual void Awake() {
 			if (Instance != null) {
 				Destroy(this.gameObject);
 			} else {

@@ -354,8 +354,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   AngularSpeed: 540
-  FOVRadius: 15
-  FOV: 360
+  FOVRadius: 10
+  FOV: 270
   DirectionDeltaTime: 0.05
   Epsilon: 0.01
   ChaseTarget: {fileID: 1557511686}
@@ -372,8 +372,8 @@ MonoBehaviour:
   AlignmentWeight: 0.7
   ObstacleVerticalRange: 5
   ObstacleAvoidDistance: 2
-  WallAvoidDistance: 1.5
-  MaxLookAheadTime: 0.3
+  WallAvoidDistance: 2
+  MaxLookAheadTime: 0.5
   ObstacleAvoidPriority: 1
   ObstacleAvoidWeight: 1
   WallAvoidPriority: 2

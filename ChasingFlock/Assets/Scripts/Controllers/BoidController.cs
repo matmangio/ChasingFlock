@@ -21,14 +21,17 @@ namespace Controllers {
 		
 		private Vector3 _updatedDirection;
 		private List<SteeringGroup> _steeringGroups;
-		
-		private LayerMask _obstacleLayer;
+
+		private float _fovCosine;
 		private LayerMask _boidLayer;
-		private Collider2D[] _obstacles = new Collider2D[50];
-		private Collider2D[] _boidNeighbours = new Collider2D[100];
+		private Collider2D[] _obstacles;
+		private Collider2D[] _boidNeighbours;
 
 		private void Start() {
-			_obstacleLayer = LayerMask.GetMask("Obstacles");
+			_obstacles = new Collider2D[ObstacleSpawner.Instance.Count * 2];
+			_boidNeighbours = new Collider2D[BoidSpawner.Instance.Count * 2];
+			
+			_fovCosine = Mathf.Cos((BoidShared.Instance.FOV / 2f) * Mathf.Deg2Rad);
 			_boidLayer = LayerMask.GetMask("Boids");
 			
 			// Sort all steering behaviours in groups of descending priority
@@ -52,7 +55,7 @@ namespace Controllers {
 		}
 		
 		private void FixedUpdate() {
-			// Go in the current direction
+			// Look towards the new direction
 			if (_updatedDirection != Vector3.zero) {
 				Quaternion targetRotation = Quaternion.LookRotation(Vector3.forward, _updatedDirection);
 				transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, BoidShared.Instance.AngularSpeed * Time.fixedDeltaTime);
@@ -65,7 +68,7 @@ namespace Controllers {
 			while (Application.isPlaying) {
 				int obstaclesCount = ObstacleSpawner.Instance.GetObstaclesAroundHeight(transform.position.y, BoidShared.Instance.ObstacleVerticalRange, _obstacles);
 				int boidNeighboursCount = Physics2D.OverlapCircleNonAlloc(transform.position, BoidShared.Instance.FOVRadius, _boidNeighbours, _boidLayer);
-				// TODO: refine based on FOV
+				boidNeighboursCount = FilterBoidsByFOV(boidNeighboursCount);
 				
 				Vector3 newDirection = Vector3.zero;
 				foreach (SteeringGroup group in _steeringGroups) {
@@ -88,6 +91,21 @@ namespace Controllers {
 
 				yield return new WaitForSeconds(BoidShared.Instance.DirectionDeltaTime);
 			}
+		}
+
+		private int FilterBoidsByFOV(int size) {
+			int removed = 0;
+			for (int i = 0; i < size - removed;) {
+				Vector3 neighbourPos = (_boidNeighbours[i].transform.position - transform.position).normalized;
+				if (Vector3.Dot(neighbourPos, transform.up) < _fovCosine) {
+					_boidNeighbours[i] = _boidNeighbours[size - 1 - removed];
+					removed++;
+				} else {
+					i++;
+				}
+			}
+
+			return size - removed;
 		}
 	}
 	
