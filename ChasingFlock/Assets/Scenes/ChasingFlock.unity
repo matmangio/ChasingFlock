@@ -618,7 +618,7 @@ GameObject:
   - component: {fileID: 1058313905}
   - component: {fileID: 1058313904}
   m_Layer: 5
-  m_Name: FPSValue
+  m_Name: FPS Value
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
