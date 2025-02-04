@@ -1,9 +1,7 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using Controllers;
-
 using Utility;
 
 namespace Managers
@@ -20,7 +18,6 @@ namespace Managers
 		private List<Collider2D> _obstacles;
 		public Dictionary<Collider2D, ObstacleController> Controllers { get; private set; }
 		
-		// TODO: parametrize
 		private void Start() {
 			Controllers = new();
 			_obstacles = new ();

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Behaviours;
-
 using Managers;
-
 using UnityEngine;
 
 namespace Controllers {
@@ -97,7 +94,7 @@ namespace Controllers {
 			int removed = 0;
 			for (int i = 0; i < size - removed;) {
 				Vector3 neighbourPos = (_boidNeighbours[i].transform.position - transform.position).normalized;
-				if (Vector3.Dot(neighbourPos, transform.up) < _fovCosine) {
+				if (Vector3.Dot(neighbourPos, transform.up) < _fovCosine || _boidNeighbours[i].gameObject == gameObject) {
 					_boidNeighbours[i] = _boidNeighbours[size - 1 - removed];
 					removed++;
 				} else {
