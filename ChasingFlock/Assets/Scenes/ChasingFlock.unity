@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c80b5c077a789541af4f5ec1e6c5d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _obstacleCount: 20
+  _obstacleCount: 30
   _obstaclePrefab: {fileID: 5793415345384622120, guid: dbd57de85a2aad043a9d1a831422446d, type: 3}
 --- !u!1 &442013356
 GameObject:
@@ -788,8 +788,8 @@ MonoBehaviour:
   CohesionWeight: 0.8
   AlignmentPriority: 0
   AlignmentWeight: 0.7
-  ObstacleVerticalRange: 5
-  ObstacleAvoidDistance: 2
+  ObstacleVerticalRange: 7.5
+  ObstacleAvoidDistance: 2.5
   WallAvoidDistance: 1.5
   MaxLookAheadTime: 0.5
   ObstacleAvoidPriority: 1

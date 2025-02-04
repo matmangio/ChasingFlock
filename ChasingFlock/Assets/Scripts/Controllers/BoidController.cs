@@ -65,7 +65,7 @@ namespace Controllers {
 			while (Application.isPlaying) {
 				int obstaclesCount = ObstacleSpawner.Instance.GetObstaclesAroundHeight(transform.position.y, BoidShared.Instance.ObstacleVerticalRange, _obstacles);
 				int boidNeighboursCount = Physics2D.OverlapCircleNonAlloc(transform.position, BoidShared.Instance.FOVRadius, _boidNeighbours, _boidLayer);
-				boidNeighboursCount = FilterBoidsByFOV(boidNeighboursCount);
+				boidNeighboursCount = (boidNeighboursCount == 1)? 0 : FilterBoidsByFOV(boidNeighboursCount);
 				
 				Vector3 newDirection = Vector3.zero;
 				foreach (SteeringGroup group in _steeringGroups) {
@@ -94,7 +94,7 @@ namespace Controllers {
 			int removed = 0;
 			for (int i = 0; i < size - removed;) {
 				Vector3 neighbourPos = (_boidNeighbours[i].transform.position - transform.position).normalized;
-				if (Vector3.Dot(neighbourPos, transform.up) < _fovCosine || _boidNeighbours[i].gameObject == gameObject) {
+				if (Vector3.Dot(neighbourPos, transform.up) < _fovCosine) {
 					_boidNeighbours[i] = _boidNeighbours[size - 1 - removed];
 					removed++;
 				} else {
