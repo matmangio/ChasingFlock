@@ -7,7 +7,7 @@ namespace Behaviours {
 			Vector3 separation = Vector3.zero;
 			for (int i = 0; i < size; i++) {
 				Vector3 tmp = transform.position - colliders[i].transform.position;
-				separation += tmp.normalized / (tmp.magnitude * tmp.magnitude + 0.0001f);
+				separation += tmp.normalized / (tmp.magnitude + 0.0001f);
 			}
 			return separation * BoidShared.Instance.SeparationWeight;
 		}

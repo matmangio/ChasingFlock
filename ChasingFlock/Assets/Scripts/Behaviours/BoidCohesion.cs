@@ -9,7 +9,7 @@ namespace Behaviours {
 				cohesion += colliders[i].transform.position;
 			}
 			cohesion /= size;
-			return -cohesion.normalized * BoidShared.Instance.CohesionWeight;
+			return (cohesion - transform.position).normalized * BoidShared.Instance.CohesionWeight;
 		}
 
 		protected override void Init() {

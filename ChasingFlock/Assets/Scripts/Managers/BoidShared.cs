@@ -43,8 +43,9 @@ namespace Managers {
 
 		[Header("Avoidance Parameters")]
 		[Min(0)] public float ObstacleVerticalRange;
+		[Min(1.5f)] public float ObstacleTouchDistance;
 		[Min(1.5f)] public float ObstacleAvoidDistance;
-		[Min(1.5f)] public float WallAvoidDistance;
+		[Min(0)] public float WallAvoidDistance;
 		[Min(0)] public float MaxLookAheadTime;
 		
 		[Space]
@@ -65,8 +66,8 @@ namespace Managers {
 		
 		private void Update() {
 			if (_breath) {
-				CohesionWeight = _originalCohesion - (Mathf.Cos(Time.realtimeSinceStartup * _breathSpeed) * (_breathAmplitude / 2f));
-				SeparationWeight = _originalSeparation - (Mathf.Sin(Time.realtimeSinceStartup * _breathSpeed) * (_breathAmplitude / 2f));
+				CohesionWeight = _originalCohesion + (Mathf.Cos(Time.realtimeSinceStartup * _breathSpeed) * (_breathAmplitude / 2f));
+				SeparationWeight = _originalSeparation + (Mathf.Sin(Time.realtimeSinceStartup * _breathSpeed) * (_breathAmplitude / 2f));
 			}
 		}
 	}

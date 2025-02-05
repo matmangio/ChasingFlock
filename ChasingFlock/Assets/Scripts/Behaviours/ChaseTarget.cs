@@ -4,8 +4,7 @@ using UnityEngine;
 namespace Behaviours {
 	
 	public class ChaseTarget : SteeringBehaviour {
-
-		[Header("Chase Parameters")]
+		
 		private GameObject _target;
 		
 		public override Vector3 GetDirection(Collider2D[] colliders, int size) {

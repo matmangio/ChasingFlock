@@ -35,7 +35,6 @@ namespace Managers
 				Collider2D obstacleCollider = obstacle.GetComponent<Collider2D>();
 				ObstacleController obstacleController = obstacle.GetComponent<ObstacleController>();
 				obstacleController.Speed = Random.Range(5f, 20f) * ((Random.value > 0.5f)? 1f : -1f);
-				obstacleController.Bound = 49f;
 				
 				_obstacles.Add(obstacleCollider);
 				Controllers.Add(obstacleCollider, obstacleController);

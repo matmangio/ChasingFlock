@@ -11,12 +11,12 @@ namespace Behaviours {
 			for (int i = 0; i < size; i++) {
 				ObstacleController obstacle = ObstacleSpawner.Instance.Controllers[colliders[i]];
 				float currentDistance = (obstacle.transform.position - transform.position).magnitude;
-				if (currentDistance < BoidShared.Instance.ObstacleAvoidDistance) {
+				if (currentDistance < BoidShared.Instance.ObstacleTouchDistance) {
 					direction = (transform.position - obstacle.transform.position).normalized;
 					break;
 				}
 				
-				float relativeSpeed = (obstacle.Velocity - boidVelocity).magnitude;
+				float relativeSpeed = (obstacle.Velocity - boidVelocity).magnitude + 0.0001f;
 				float timeToCrash = Mathf.Min(currentDistance / relativeSpeed, BoidShared.Instance.MaxLookAheadTime);
 				if (timeToCrash < minTimeToCrash) {
 					minTimeToCrash = timeToCrash;

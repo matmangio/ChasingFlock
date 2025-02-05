@@ -212,7 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c80b5c077a789541af4f5ec1e6c5d00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _obstacleCount: 30
+  _obstacleCount: 20
   _obstaclePrefab: {fileID: 5793415345384622120, guid: dbd57de85a2aad043a9d1a831422446d, type: 3}
 --- !u!1 &442013356
 GameObject:
@@ -772,16 +772,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Speed: 10
   AngularSpeed: 540
-  FOVRadius: 10
+  FOVRadius: 2.5
   FOV: 270
-  DirectionDeltaTime: 0.05
+  DirectionDeltaTime: 0.1
   Epsilon: 0.01
   ChaseTarget: {fileID: 1557511686}
   ChasePriority: 0
   ChaseWeight: 1
   _breath: 1
   _breathSpeed: 1
-  _breathAmplitude: 0.4
+  _breathAmplitude: 0.2
   SeparationPriority: 0
   SeparationWeight: 1.2
   CohesionPriority: 0
@@ -789,9 +789,10 @@ MonoBehaviour:
   AlignmentPriority: 0
   AlignmentWeight: 0.7
   ObstacleVerticalRange: 7.5
+  ObstacleTouchDistance: 1.5
   ObstacleAvoidDistance: 2.5
-  WallAvoidDistance: 1.5
-  MaxLookAheadTime: 0.5
+  WallAvoidDistance: 2
+  MaxLookAheadTime: 3
   ObstacleAvoidPriority: 1
   ObstacleAvoidWeight: 1
   WallAvoidPriority: 2
@@ -809,7 +810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _count: 50
-  _radius: 25
+  _radius: 10
   _boidPrefab: {fileID: 4083861778635899280, guid: c5e26c1838241bd4388bf2932c3e069e, type: 3}
 --- !u!4 &1513697505
 Transform:
