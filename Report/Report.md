@@ -278,7 +278,13 @@ What is executed each frame is instead the `FixedUpdate()` function, which works
 ### Steering Behaviours
 
 Steering behaviours are treated as individual MonoBehaviour scripts to be attached to each boid and contribute to movement by being called by the `BoidController`.
-They therefore have the need to be treated uniformly.
+They therefore have the need to be treated uniformly, which is why they're organized in the hierarchy shown in [Figure 7](#figure7) where the abstract `SteeringBehaviour` class is the base for all other behaviour classes which only implement its abstract methods.
+In particular, each steering behaviour has:
+
+- A public `Priority`  attribute, used for sorting into groups;
+- A protected `Init()` method used to setup the behaviours' internal structures and parameters which is called by the base `Awake()` method;
+- A public `GetDirection(Collider2D[] colliders, int size)` method which takes an array of `Collider2D` and its integer size to compute the suggested direction *already multiplied by the behaviour's weight*.
+	This last bit is necessary since as we'll see the behaviour weights are all stored inside a singleton behaviour, so only the class itself knows which weight to use.
 
 <a name="figure7"></a>
 @startuml
@@ -307,4 +313,15 @@ BoidComponent <|-- BoidAlignment
 @enduml
 <figcaption>Figure 7 - The SteeringBehaviour hierarchy of classes.</figcaption>
 
+Notice how the `BoidComponent` abstract class is completely empty: as a matter of fact it is only used to categorize the flocking behaviours in order for the `BoidController` to decide to which behaviours it needs to pass the colliders of the boid's neighbours.
+
 ### Managers
+
+The only interesting things left to discuss are a few GameObjects which act as managers for specific parts of the simulation: most of these are realized using the Singleton pattern to grant easy access to their parameters from other classes.
+
+First of all we have the `ObstacleSpawner` and the `BoidSpawner` which, as can be imagined, are tasked with spawning obstacles and boids respectively at startup.
+While the latter only extracts random positions inside a unit circle of given radius and instantiates boids there, the former is a little bit more sophisticated: it works by successively extracting random values for the obstacle's height and checking that it won't collide with any other obstacle by looking for previously extracted $y$ coordinates within $2 \text{ m}$ of the extracted value.
+It also saves the instantiated obstacles' `Collider2D` in a list ordered by $y$ coordinate so that it can quickly return the obstacles inside the vertical range of a boid with the `GetObstaclesAroundHeight()` public method.
+Moreover, each collider is also associated with its `ObstacleController` instance inside a public `Controllers` dictionary so that boids can easily access the obstacles' velocity vectors without need for an expensive `GetComponent` invocation.
+
+The other major manager script is the `BoidShared` singleton, which contains all parameters for the boid's steering behaviours, from their weights to specific attributes like the avoidance distance of the wall and obstacle avoidance and even the `Epsilon` value used by the BoidControllers to check against the norm of a steering group's total direction.
