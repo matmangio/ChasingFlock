@@ -289,7 +289,7 @@ In particular, each steering behaviour has:
 
 <a name="figure7"></a>
 <p align="center">
-	<img src="http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/matmangio/ChasingFlock/refs/heads/main/Report/assets/diagram.iuml" height="300px" alt="Steering behaviour UML">
+	<img src="Report/assets/Uml.png" height="300px" alt="Steering behaviour UML">
 </p>
 <p align="center"><i>Figure 7 - The SteeringBehaviour hierarchy of classes.</i></p>
 
