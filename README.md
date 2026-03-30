@@ -1,4 +1,4 @@
-# **Chasing Flock**, <small>by Matteo Mangioni</small>
+# Chasing Flock, <small>by Matteo Mangioni</small>
 
 This document will explore the modelling process and implementation choices behind the "Chasing Flock" project created by Matteo Mangioni for the 2024/2025 edition of the *Artificial Intelligence for Video Games* course held by Prof. Maggiorini and Prof. Gadia at the University of Milan Statale.
 
@@ -16,9 +16,10 @@ These boids will need to follow the original flocking algorithm described by Cra
 No size specifications where given for the boids, so a light-blue circle of $0.5 \text{ m}$ of radius was used: [Figure 1](#figure1) shows a comparison between the three shapes.
 
 <a name="figure1"></a>
-![Size comparison](Report/assets/Scale.png)
-<figcaption>Figure 1 - Size comparison between boids, obstacles and the target.</figcaption>
-<br>
+<p align="center">
+	<img src="Report/assets/Scale.png" height="300px" alt="Scale comparison">
+</p>
+<p align="center"><i>Figure 1 - Size comparison between boids, obstacles and the target.</i></p>
 
 ## Model
 
@@ -32,9 +33,11 @@ This means that instead of directly moving towards a given direction, **boids on
 This technique greatly increases the realism and believability of the simulation by both disabling instantaneous turns and avoiding the "jittering" effect that comes from quickly oscillating between very similar movement directions.
 
 <a name="figure2"></a>
-![Example of turning](Report/assets/Turning.png)
-<figcaption>Figure 2 - A turning boid: the current direction is in red while the desired direction is green.</figcaption>
-<br>
+<p align="center">
+	<img src="Report/assets/Turning.png" height="300px" alt="Example of turning">
+</p>
+
+<p align="center"><i>Figure 2 - A turning boid: the current direction is in red while the desired direction is green.</i></p>
 
 Since this movement algorithm requires each boid to have a *desired direction* to turn towards, to complete the definition of the boid's behaviour we need a way to decide where they should go.
 To do this, we employ a system based on **steering behaviours**: these are individual behaviours each with a different goal and each dictating a different direction at any given time.
@@ -64,9 +67,10 @@ In this project boids were given a circular neighbourhood of $2.5 \text{ m}$ of 
 The radius was instead chosen to incorporate a good chunk of the flock but not its entirety and was partially related to the boids' speed of $10 \text{ m/s}$, with the objective of giving them the ability to react to boids within a few moments of distance.
 
 <a name="figure3"></a>
-![Boid neighbourhood](Report/assets/Neighbourhood.png)
-<figcaption>Figure 3 - The neighbourhood of a boid: the red vector indicates the boid's current direction.</figcaption>
-<br>
+<p align="center">
+	<img src="Report/assets/Neighbourhood.png" height="300px" alt="Boid neighbourhood">
+</p>
+<p align="center"><i>Figure 3 - The neighbourhood of a boid: the red vector indicates the boid's current direction.</i></p>
 
 Usually a boid's neighbourhood contains the boid itself and its characteristics are used for the computations that we'll see in the following sections: however, in the project it was decided that *if a boid's neighbourhood contains only the boid itself, then it's considered empty* and flocking behaviours are disabled altogether.
 The reasoning behind this choice was to incentivise lonely boids to reunite with the flock by disregarding Separation, Cohesion and Alignment with themselves and only following the Chase behaviour that, as we'll see, will point them towards the target: since the flock as a whole will also be moving there, this increases the chances of the boid being reabsorbed in it.
@@ -81,9 +85,10 @@ $$\color{green}{\text{Cohesion}} = 0.8 + 0.1 \cdot \cos(t)$$
 $$\color{blue}{\text{Alignment}} = 0.7$$
 
 <a name="figure4"></a>
-![Flocking components weights](Report/assets/Weights.png)
-<figcaption>Figure 4 - The weights of the flocking components over time, labeled by color.</figcaption>
-<br>
+<p align="center">
+	<img src="Report/assets/Weights.png" height="300px" alt="Flocking components weights">
+</p>
+<p align="center"><i>Figure 4 - The weights of the flocking components over time, labeled by color.</i></p>
 
 #### Separation
 
@@ -146,9 +151,10 @@ Instead, each boid is given a **vertical range** of $7.5 \text{ m}$: it will con
 This significantly cuts down on the number of obstacles to consider, allowing for some performance optimization.
 
 <a name="figure5"></a>
-![Vertical range representation](Report/assets/Vertical.png)
-<figcaption>Figure 5 - A boid's vertical range.</figcaption>
-<br>
+<p align="center">
+	<img src="Report/assets/Vertical.png" height="300px" alt="Vertical range representation">
+</p>
+<p align="center"><i>Figure 5 - A boid's vertical range.</i></p>
 
 Having narrowed the range of obstacles to consider, the algorithm then checks if the boid is currently colliding with any obstacle, i.e. the distance between their centers is less than $1.5 \text{ m}$: if this is the case, then no further obstacles are considered and the desired direction is the one that goes from the colliding obstacle's position to the boid's position, which is the faster route of escape.
 
@@ -191,9 +197,10 @@ In the occasion that the boid is within $2 \text{ m}$ of two edges, which only h
 Originally a more complicated system was intended for these situations around corners, one which handled scaling the contributions based on the boid's distance from that wall: ultimately, however, the improvement was too little to justify the increased computation time.
 
 <a name="figure6"></a>
-![Representation of wall avoidance](Report/assets/Wall.png)
-<figcaption>Figure 6 - The directions suggested by wall avoidance in different situations.</figcaption>
-<br>
+<p align="center">
+	<img src="Report/assets/Wall.png" height="300px" alt="Representation of wall avoidance">
+</p>
+<p align="center"><i>Figure 6 - The directions suggested by wall avoidance in different situations.</i></p>
 
 ## Implementation
 
@@ -281,9 +288,10 @@ In particular, each steering behaviour has:
 	This last bit is necessary since as we'll see the behaviour weights are all stored inside a singleton behaviour, so only the class itself knows which weight to use.
 
 <a name="figure7"></a>
-![Steering behaviour UML](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/matmangio/ChasingFlock/refs/heads/main/Report/assets/diagram.iuml)
-<figcaption>Figure 7 - The SteeringBehaviour hierarchy of classes.</figcaption>
-<br>
+<p align="center">
+	<img src="http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/matmangio/ChasingFlock/refs/heads/main/Report/assets/diagram.iuml" height="300px" alt="Steering behaviour UML">
+</p>
+<p align="center"><i>Figure 7 - The SteeringBehaviour hierarchy of classes.</i></p>
 
 Notice how the `BoidComponent` abstract class is completely empty: as a matter of fact it is only used to categorize the flocking behaviours in order for the `BoidController` to decide to which behaviours it needs to pass the colliders of the boid's neighbours.
 
